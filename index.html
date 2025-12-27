@@ -14,21 +14,18 @@
       --border: #e5e7eb;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     html, body {
       height: 100%;
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      color: var(--text-dark);
     }
 
     body {
       display: flex;
       flex-direction: column;
-      background: #ffffff;
+      overflow: hidden; /* 🔒 prevents page scroll */
     }
 
     /* ---------- HEADER ---------- */
@@ -55,9 +52,7 @@
       color: inherit;
     }
 
-    .logo img {
-      height: 42px;
-    }
+    .logo img { height: 42px; }
 
     .logo span {
       font-size: 13px;
@@ -74,15 +69,12 @@
       cursor: pointer;
     }
 
-    nav a:hover {
-      color: var(--primary);
-    }
+    nav a:hover { color: var(--primary); }
 
     /* ---------- MAIN ---------- */
     main {
       flex: 1;
-      background: linear-gradient(to bottom, #eef2ff, #ffffff);
-      padding: 60px 20px;
+      overflow-y: auto; /* ✅ only content scrolls if needed */
     }
 
     .container {
@@ -114,12 +106,57 @@
       margin: 0 auto 16px;
     }
 
-    .content-section {
-      display: none;
+    .content-section { display: none; }
+    .content-section.active { display: block; }
+
+    /* ---------- CAROUSEL ---------- */
+    .carousel {
+      position: relative;
+      margin: 40px auto 0;
+      max-width: 760px;
+      overflow: hidden;
     }
 
-    .content-section.active {
-      display: block;
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .carousel-card {
+      min-width: 100%;
+      padding: 24px;
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .carousel-card img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+
+    .carousel-card h3 {
+      margin-bottom: 6px;
+      color: var(--primary);
+    }
+
+    .carousel-controls {
+      margin-top: 16px;
+    }
+
+    .carousel-controls button {
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      padding: 6px 14px;
+      margin: 0 6px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
     }
 
     /* ---------- FOOTER ---------- */
@@ -132,7 +169,7 @@
       background: #ffffff;
     }
 
-    /* ---------- CHAT BUTTON ---------- */
+    /* ---------- CHAT ---------- */
     .chat-btn {
       position: fixed;
       bottom: 24px;
@@ -148,7 +185,6 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
-    /* ---------- CHAT WINDOW ---------- */
     .chat-window {
       position: fixed;
       bottom: 90px;
@@ -170,7 +206,6 @@
       font-weight: 700;
       display: flex;
       justify-content: space-between;
-      align-items: center;
     }
 
     .chat-body {
@@ -180,20 +215,8 @@
       font-size: 14px;
     }
 
-    .chat-msg {
-      margin-bottom: 10px;
-      line-height: 1.4;
-    }
-
-    .chat-msg.bot {
-      color: var(--text-dark);
-    }
-
-    .chat-msg.user {
-      text-align: right;
-      color: var(--primary);
-      font-weight: 600;
-    }
+    .chat-msg { margin-bottom: 10px; }
+    .chat-msg.user { text-align: right; color: var(--primary); font-weight: 600; }
 
     .chat-input {
       display: flex;
@@ -204,7 +227,6 @@
       flex: 1;
       border: none;
       padding: 10px;
-      font-size: 14px;
       outline: none;
     }
 
@@ -221,7 +243,6 @@
 
 <body>
 
-<!-- HEADER -->
 <header>
   <div class="nav">
     <a class="logo" onclick="showSection('home')">
@@ -237,35 +258,76 @@
   </div>
 </header>
 
-<!-- MAIN -->
 <main>
   <div class="container">
 
+    <!-- HOME -->
     <section id="home" class="content-section active">
       <div class="badge">⚠ Proof of Concept</div>
       <h1>MS1313 Technologies – Test POC</h1>
-      <p>This is a test environment for experimenting with AI agents and automation.</p>
-      <p><strong>Not a production website.</strong></p>
+      <p>Experimenting with GenAI agents, automation, and intelligent workflows.</p>
+
+      <div class="carousel">
+        <div class="carousel-track" id="carouselTrack">
+
+          <div class="carousel-card">
+            <img src="static/images/artificial-intelligence-robot.png">
+            <h3>🤖 Intelligent Agents</h3>
+            <p>Autonomous AI agents for HR, Finance, Operations, and decision-making.</p>
+          </div>
+
+          <div class="carousel-card">
+            <img src="static/images/artificial-intelligence-brain.png">
+            <h3>🧠 Natural Language Processing</h3>
+            <p>Text understanding, summarization, translation, and sentiment analysis.</p>
+          </div>
+
+          <div class="carousel-card">
+            <img src="static/images/data-document.png">
+            <h3>📄 Information Extraction</h3>
+            <p>Extract structured insights from documents, PDFs, and forms.</p>
+          </div>
+
+          <div class="carousel-card">
+            <img src="static/images/data-search.png">
+            <h3>🔍 RAG & Knowledge Search</h3>
+            <p>Context-aware answers using enterprise knowledge and vector search.</p>
+          </div>
+
+          <div class="carousel-card">
+            <img src="static/images/automation-technology.png">
+            <h3>⚙ Automation</h3>
+            <p>AI-powered workflows and intelligent process orchestration.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="carousel-controls">
+        <button onclick="prevSlide()">‹</button>
+        <button onclick="nextSlide()">›</button>
+      </div>
     </section>
 
+    <!-- OTHER SECTIONS -->
     <section id="about" class="content-section">
-      <h1>About Us</h1>
-      <p>We build intelligent GenAI-driven platforms and agent-based systems.</p>
+      <h1>About</h1>
+      <p>Building GenAI platforms and agent-driven systems.</p>
     </section>
 
     <section id="careers" class="content-section">
       <h1>Careers (POC)</h1>
-      <p>Used to test AI-driven job posting and resume processing agents.</p>
+      <p>Testing AI-driven job intake and resume processing agents.</p>
     </section>
 
     <section id="reviews" class="content-section">
       <h1>Reviews</h1>
-      <p>Testing sentiment analysis and feedback summarization agents.</p>
+      <p>Sentiment analysis and feedback summarization POC.</p>
     </section>
 
     <section id="contact" class="content-section">
       <h1>Contact</h1>
-      <p>Future AI-powered contact workflows will be tested here.</p>
+      <p>Future conversational workflows powered by AI agents.</p>
     </section>
 
   </div>
@@ -275,20 +337,16 @@
   © 2025 MS1313 Technologies · Test POC Environment
 </footer>
 
-<!-- CHAT BUTTON -->
 <button class="chat-btn" onclick="toggleChat()">💬 Chat with us</button>
 
-<!-- CHAT WINDOW -->
 <div class="chat-window" id="chatWindow">
   <div class="chat-header">
     Chatbot
-    <span style="cursor:pointer;" onclick="toggleChat()">✕</span>
+    <span style="cursor:pointer" onclick="toggleChat()">✕</span>
   </div>
-
   <div class="chat-body" id="chatBody">
     <div class="chat-msg bot">Hi 👋 How can I help you?</div>
   </div>
-
   <div class="chat-input">
     <input type="text" placeholder="Type a message..." onkeydown="sendMessage(event)">
     <button onclick="sendMessage()">Send</button>
@@ -302,32 +360,41 @@
   }
 
   function toggleChat() {
-    const chat = document.getElementById("chatWindow");
-    chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+    const c = document.getElementById("chatWindow");
+    c.style.display = c.style.display === "flex" ? "none" : "flex";
   }
 
-  function sendMessage(event) {
-    if (event && event.key !== "Enter") return;
-
+  function sendMessage(e) {
+    if (e && e.key !== "Enter") return;
     const input = document.querySelector(".chat-input input");
     if (!input.value.trim()) return;
 
-    const chatBody = document.getElementById("chatBody");
-
-    const userMsg = document.createElement("div");
-    userMsg.className = "chat-msg user";
-    userMsg.innerText = input.value;
-    chatBody.appendChild(userMsg);
-
+    const body = document.getElementById("chatBody");
+    body.innerHTML += `<div class="chat-msg user">${input.value}</div>`;
+    body.innerHTML += `<div class="chat-msg bot">Hi! This is a POC chatbot.</div>`;
     input.value = "";
-
-    const botMsg = document.createElement("div");
-    botMsg.className = "chat-msg bot";
-    botMsg.innerText = "Hi! 👋 This is a POC chatbot.";
-    chatBody.appendChild(botMsg);
-
-    chatBody.scrollTop = chatBody.scrollHeight;
+    body.scrollTop = body.scrollHeight;
   }
+
+  let index = 0;
+  const track = document.getElementById("carouselTrack");
+  const slides = track.children.length;
+
+  function updateCarousel() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  function nextSlide() {
+    index = (index + 1) % slides;
+    updateCarousel();
+  }
+
+  function prevSlide() {
+    index = (index - 1 + slides) % slides;
+    updateCarousel();
+  }
+
+  setInterval(nextSlide, 4000);
 </script>
 
 </body>
