@@ -6,6 +6,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
+    /* ---------- REVIEW STARS ---------- */
+    .star-select span {
+      font-size: 22px;
+      cursor: pointer;
+      color: #d1d5db;
+    }
+
+    .star-select span.active {
+      color: #f59e0b;
+    }
+
+
     :root {
       --primary: #2563eb;
       --text-dark: #1f2937;
@@ -292,8 +304,14 @@
   <div class="nav">
     <div class="logo" onclick="showSection('home')">
       <img src="static/logo.png">
-      <span>TEST / POC</span>
+      <span>TEST</span>
     </div>
+
+    <!-- POC badge in center -->
+    <div class="poc-header-badge">
+      ⚠ Proof of Concept
+    </div>
+
     <nav>
       <a onclick="showSection('home')">Home</a>
       <a onclick="showSection('jobs')">Jobs</a>
@@ -308,7 +326,7 @@
 
     <!-- HOME -->
     <section id="home" class="content-section active">
-      <div class="badge">⚠ Proof of Concept</div>
+  
       <h1>MS1313 Technologies – Test POC</h1>
       <p>Experimenting with GenAI agents and intelligent workflows.</p>
 
@@ -342,10 +360,10 @@
         </div>
       </div>
 
-      <div class="carousel-controls">
+      <!-- <div class="carousel-controls">
         <button onclick="prevSlide()">‹</button>
         <button onclick="nextSlide()">›</button>
-      </div>
+      </div> -->
     </section>
 
     <!-- JOBS -->
@@ -432,6 +450,42 @@
 </div>
 
 <script>
+ 
+  let selectedStars = 0;
+
+  function openReviewModal() {
+    document.getElementById("reviewModal").style.display = "flex";
+    document.getElementById("reviewAgentMsg").innerText = "";
+    selectedStars = 0;
+
+    document.querySelectorAll("#starSelect span").forEach(s =>
+      s.classList.remove("active")
+    );
+  }
+
+  function closeReviewModal() {
+    document.getElementById("reviewModal").style.display = "none";
+  }
+
+  function selectStar(count) {
+    selectedStars = count;
+    document.querySelectorAll("#starSelect span").forEach((star, index) => {
+      star.classList.toggle("active", index < count);
+    });
+  }
+
+  function submitReview() {
+    if (selectedStars === 0) {
+      alert("Please select a star rating");
+      return;
+    }
+
+    document.getElementById("reviewAgentMsg").innerText =
+      "✅ Review submitted. Assigned to Review Agent for analysis.";
+
+    setTimeout(closeReviewModal, 1600);
+  }
+
   function showSection(id) {
     document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -467,6 +521,35 @@
     setTimeout(closeJobModal, 1800);
   }
 </script>
+
+<!-- REVIEW MODAL -->
+<div class="modal-overlay" id="reviewModal">
+  <div class="modal">
+    <h3>Add Review</h3>
+
+    <label>Name</label>
+    <input type="text" id="reviewName" placeholder="Your name">
+
+    <label>Rating</label>
+    <div class="star-select" id="starSelect">
+      <span onclick="selectStar(1)">★</span>
+      <span onclick="selectStar(2)">★</span>
+      <span onclick="selectStar(3)">★</span>
+      <span onclick="selectStar(4)">★</span>
+      <span onclick="selectStar(5)">★</span>
+    </div>
+
+    <label>Feedback</label>
+    <textarea id="reviewText" placeholder="Share your experience..."></textarea>
+
+    <div class="modal-actions">
+      <button onclick="submitReview()">Submit</button>
+      <button class="secondary" onclick="closeReviewModal()">Cancel</button>
+    </div>
+
+    <p class="agent-msg" id="reviewAgentMsg"></p>
+  </div>
+</div>
 
 </body>
 </html>
