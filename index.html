@@ -1,201 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>MS1313 Technologies – POC</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>MS1313 Technologies – Test POC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     :root {
       --primary: #2563eb;
-      --primary-soft: #e0e7ff;
       --bg-light: #f8fafc;
-      --text-main: #1f2937;
+      --text-dark: #1f2937;
       --text-muted: #6b7280;
-      --warning-bg: #fde68a;
-      --warning-text: #92400e;
+      --border: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     html, body {
+      height: 100%;
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      color: var(--text-main);
+      color: var(--text-dark);
     }
 
-    header {
-      border-bottom: 3px solid var(--primary);
+    body {
+      display: flex;
+      flex-direction: column;
       background: #ffffff;
+    }
+
+    /* ---------- HEADER ---------- */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: #fff;
     }
 
     .nav {
       max-width: 1100px;
-      margin: auto;
-      padding: 12px 20px;
+      margin: 0 auto;
+      padding: 14px 20px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
     }
 
-    .nav-left {
+    .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
-    }
-
-    .nav-left img {
-      max-width: 90px;
+      gap: 12px;
       cursor: pointer;
+      text-decoration: none;
+      color: inherit;
     }
 
-    .nav-left span {
+    .logo img {
+      height: 42px;
+    }
+
+    .logo span {
       font-size: 13px;
       font-weight: 700;
       color: var(--primary);
     }
 
-    .nav-right a {
-      margin-left: 18px;
-      cursor: pointer;
+    nav a {
+      margin-left: 20px;
       text-decoration: none;
-      font-size: 14px;
       font-weight: 600;
-      color: var(--text-main);
+      color: var(--text-dark);
+      font-size: 14px;
+      cursor: pointer;
     }
 
-    .nav-right a:hover {
+    nav a:hover {
       color: var(--primary);
     }
 
-    /* -------- Sections -------- */
+    /* ---------- MAIN ---------- */
+    main {
+      flex: 1;
+      background: linear-gradient(to bottom, #eef2ff, #ffffff);
+      padding: 60px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #fde68a;
+      color: #92400e;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto 16px;
+    }
+
     .content-section {
       display: none;
-      padding: 90px 20px;
-      text-align: center;
-      background: linear-gradient(180deg, var(--primary-soft), var(--bg-light));
-      min-height: calc(100vh - 140px);
     }
 
     .content-section.active {
       display: block;
     }
 
-    h1 {
-      font-size: 34px;
-      margin-bottom: 12px;
-    }
-
-    p {
-      max-width: 760px;
-      margin: 0 auto 18px;
-      font-size: 17px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .poc-badge {
-      display: inline-block;
-      background: var(--warning-bg);
-      color: var(--warning-text);
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
-
+    /* ---------- FOOTER ---------- */
     footer {
+      border-top: 1px solid var(--border);
       text-align: center;
-      padding: 18px;
+      padding: 16px;
       font-size: 13px;
       color: var(--text-muted);
       background: #ffffff;
-      border-top: 1px solid #e5e7eb;
+    }
+
+    /* ---------- CHAT BUTTON ---------- */
+    .chat-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* ---------- CHAT WINDOW ---------- */
+    .chat-window {
+      position: fixed;
+      bottom: 90px;
+      right: 24px;
+      width: 320px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: var(--primary);
+      color: #fff;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-body {
+      padding: 12px;
+      flex: 1;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+    .chat-msg {
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .chat-msg.bot {
+      color: var(--text-dark);
+    }
+
+    .chat-msg.user {
+      text-align: right;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid var(--border);
+    }
+
+    .chat-input input {
+      flex: 1;
+      border: none;
+      padding: 10px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .chat-input button {
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      padding: 0 14px;
+      cursor: pointer;
+      font-weight: 600;
     }
   </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <header>
   <div class="nav">
-    <div class="nav-left">
-      <img src="static/logo.png" alt="MS1313 Technologies" onclick="showSection('home')">
+    <a class="logo" onclick="showSection('home')">
+      <img src="static/logo.png" alt="MS1313 Technologies">
       <span>TEST / POC</span>
-    </div>
-    <div class="nav-right">
+    </a>
+    <nav>
       <a onclick="showSection('about')">About</a>
       <a onclick="showSection('careers')">Careers</a>
       <a onclick="showSection('reviews')">Reviews</a>
       <a onclick="showSection('contact')">Contact</a>
-    </div>
+    </nav>
   </div>
 </header>
 
-<!-- HOME -->
-<section id="home" class="content-section active">
-  <div class="poc-badge">⚠ Proof of Concept</div>
-  <h1>MS1313 Technologies – Test POC</h1>
-  <p>
-    This website is a <strong>test and proof-of-concept environment</strong>
-    used to experiment with AI agents, automation, and user data workflows.
-  </p>
-  <p>
-    <strong>Not a production website.</strong> Internal testing only.
-  </p>
-</section>
+<!-- MAIN -->
+<main>
+  <div class="container">
 
-<!-- ABOUT -->
-<section id="about" class="content-section">
-  <h1>About MS1313 Technologies</h1>
-  <p>
-    MS1313 Technologies builds intelligent platforms using AI,
-    automation, and cloud-native engineering.
-  </p>
-  <p>
-    This POC validates agent architectures and orchestration patterns.
-  </p>
-</section>
+    <section id="home" class="content-section active">
+      <div class="badge">⚠ Proof of Concept</div>
+      <h1>MS1313 Technologies – Test POC</h1>
+      <p>This is a test environment for experimenting with AI agents and automation.</p>
+      <p><strong>Not a production website.</strong></p>
+    </section>
 
-<!-- CAREERS -->
-<section id="careers" class="content-section">
-  <h1>Careers (POC)</h1>
-  <p>
-    Used to test AI-driven job posting, resume ingestion,
-    skill matching, and HR automation agents.
-  </p>
-</section>
+    <section id="about" class="content-section">
+      <h1>About Us</h1>
+      <p>We build intelligent GenAI-driven platforms and agent-based systems.</p>
+    </section>
 
-<!-- REVIEWS -->
-<section id="reviews" class="content-section">
-  <h1>Reviews & Feedback (POC)</h1>
-  <p>
-    Designed to test AI-based sentiment analysis,
-    feedback summarization, and categorization.
-  </p>
-</section>
+    <section id="careers" class="content-section">
+      <h1>Careers (POC)</h1>
+      <p>Used to test AI-driven job posting and resume processing agents.</p>
+    </section>
 
-<!-- CONTACT -->
-<section id="contact" class="content-section">
-  <h1>Contact (POC)</h1>
-  <p>
-    This section will later be handled by AI agents
-    for routing, classification, and automated responses.
-  </p>
-</section>
+    <section id="reviews" class="content-section">
+      <h1>Reviews</h1>
+      <p>Testing sentiment analysis and feedback summarization agents.</p>
+    </section>
+
+    <section id="contact" class="content-section">
+      <h1>Contact</h1>
+      <p>Future AI-powered contact workflows will be tested here.</p>
+    </section>
+
+  </div>
+</main>
 
 <footer>
   © 2025 MS1313 Technologies · Test POC Environment
 </footer>
 
-<script>
-  function showSection(sectionId) {
-    const sections = document.querySelectorAll('.content-section');
-    sections.forEach(section => section.classList.remove('active'));
+<!-- CHAT BUTTON -->
+<button class="chat-btn" onclick="toggleChat()">💬 Chat with us</button>
 
-    const activeSection = document.getElementById(sectionId);
-    if (activeSection) {
-      activeSection.classList.add('active');
-    }
+<!-- CHAT WINDOW -->
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    Chatbot
+    <span style="cursor:pointer;" onclick="toggleChat()">✕</span>
+  </div>
+
+  <div class="chat-body" id="chatBody">
+    <div class="chat-msg bot">Hi 👋 How can I help you?</div>
+  </div>
+
+  <div class="chat-input">
+    <input type="text" placeholder="Type a message..." onkeydown="sendMessage(event)">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function toggleChat() {
+    const chat = document.getElementById("chatWindow");
+    chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+  }
+
+  function sendMessage(event) {
+    if (event && event.key !== "Enter") return;
+
+    const input = document.querySelector(".chat-input input");
+    if (!input.value.trim()) return;
+
+    const chatBody = document.getElementById("chatBody");
+
+    const userMsg = document.createElement("div");
+    userMsg.className = "chat-msg user";
+    userMsg.innerText = input.value;
+    chatBody.appendChild(userMsg);
+
+    input.value = "";
+
+    const botMsg = document.createElement("div");
+    botMsg.className = "chat-msg bot";
+    botMsg.innerText = "Hi! 👋 This is a POC chatbot.";
+    chatBody.appendChild(botMsg);
+
+    chatBody.scrollTop = chatBody.scrollHeight;
   }
 </script>
 
